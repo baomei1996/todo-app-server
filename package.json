@@ -4,7 +4,7 @@
     "description": "This is our first mern app",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "dev": "tsnd --respawn --pretty --transpile-only ./src/index.ts"
     },
     "author": "bomi",
     "license": "ISC",
@@ -13,6 +13,7 @@
     },
     "devDependencies": {
         "@types/express": "^4.17.21",
-        "@types/node": "^20.10.0"
+        "@types/node": "^20.10.0",
+        "ts-node-dev": "^2.0.0"
     }
 }
