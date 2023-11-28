@@ -1,10 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
+import Note from "./models/note";
 
 // connect to database
 mongoose.set("strictQuery", true);
 mongoose
-    .connect("mongodb://localhost:27017/test")
+    .connect("mongodb://localhost:27017/note-app")
     .then(() => {
         console.log("Connected to database");
     })
@@ -15,7 +16,10 @@ mongoose
 // create a server
 const app = express();
 
+// this will parse post request coming from fetch.post() method
 app.use(express.json());
+
+// this will parse post request coming form html form
 app.use(express.urlencoded({ extended: false }));
 
 app.post("/", (req, res) => {
@@ -24,6 +28,19 @@ app.post("/", (req, res) => {
 
     res.json({
         message: "I am a post request",
+    });
+});
+
+app.post("/create", async (req, res) => {
+    const newNote = new Note({
+        title: req.body.title,
+        description: req.body.description,
+    });
+
+    await newNote.save();
+
+    res.json({
+        message: "I am a post create request",
     });
 });
 
