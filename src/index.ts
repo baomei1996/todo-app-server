@@ -1,4 +1,16 @@
 import express from "express";
+import mongoose from "mongoose";
+
+// connect to database
+mongoose.set("strictQuery", true);
+mongoose
+    .connect("mongodb://localhost:27017/test")
+    .then(() => {
+        console.log("Connected to database");
+    })
+    .catch((err) => {
+        console.error("DB connection Failed: ", err);
+    });
 
 // create a server
 const app = express();
