@@ -1,5 +1,10 @@
 import { Schema, model } from "mongoose";
 
+export interface NoteDocument {
+    title: string;
+    description?: string;
+}
+
 const noteSchema = new Schema({
     title: {
         type: String,
@@ -12,4 +17,4 @@ const noteSchema = new Schema({
     },
 });
 
-export default model("Note", noteSchema);
+export default model<NoteDocument>("Note", noteSchema);

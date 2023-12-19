@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import Note from "./models/note";
+import Note, { NoteDocument } from "./models/note";
 
 // connect to database
 mongoose.set("strictQuery", true);
@@ -31,13 +31,17 @@ app.post("/", (req, res) => {
     });
 });
 
-app.post("/create", async (req, res) => {
-    const newNote = new Note({
-        title: req.body.title,
-        description: req.body.description,
-    });
+interface IncomingBody {
+    title: string;
+    description?: string;
+}
 
-    await newNote.save();
+app.post("/create", async (req, res) => {
+    // here we need data so that we can create new note/todo
+    await Note.create<NoteDocument>({
+        title: (req.body as IncomingBody).title,
+        description: (req.body as IncomingBody).description,
+    });
 
     res.json({
         message: "I am a post create request",
