@@ -48,6 +48,20 @@ app.post("/create", async (req, res) => {
     });
 });
 
+// convention으로 data를 업데이트 할 때는 patch를 사용한다.
+app.patch("/:noteId", async (req, res) => {
+    const { noteId } = req.params;
+    const note = await Note.findById(noteId);
+    if (!note) return res.json({ message: "Note not found!" });
+    const { title, description } = req.body as IncomingBody;
+    if (title) note.title = title;
+    if (description) note.description = description;
+
+    await note.save();
+
+    res.json({ note });
+});
+
 // listen to some port
 app.listen(8000, () => {
     console.log("Server is listening on port 8000");
